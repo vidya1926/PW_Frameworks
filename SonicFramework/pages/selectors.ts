@@ -41,6 +41,11 @@ export const selectors = {
         searchLeadInput: "div[class^='slds-form-element__control'] input",
         userId: (userName: string) => "//a[@title='" + userName + "']",
         expandBtn: "[class^='menu-button-item'] button",
+        showAction:"(//div[contains(@class,'forceVirtualActionMarker')]/a)[1]",
+        editLead:`//a/div[@title='Edit']`,
+        phoneNumber:`//label[text()='Phone']//following::input[1]`,
+        toastessage:`//span[contains(@class,'toastMessage')]`,
+        deleteLead:`//a/div[@title='Delete']`
     },
     contacts: {
         phoneInput: `input[name='Phone']`,

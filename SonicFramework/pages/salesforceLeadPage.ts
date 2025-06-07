@@ -1,6 +1,7 @@
 import { Page, Locator, BrowserContext } from "@playwright/test";
 import { selectors } from "./selectors";
 import { PlaywrightWrapper } from "../helpers/playwright";
+import { FakerData } from "../helpers/fakerUtils";
 
 
 export class SalesforceLeadPage extends PlaywrightWrapper {
@@ -37,9 +38,8 @@ export class SalesforceLeadPage extends PlaywrightWrapper {
     public async verifiTheLeadAccount(expectedValue: string) {
         await this.validateElementVisibility(selectors.leads.verificationText, "Lead Name")
         const leadName = await this.getInnerText(selectors.leads.verificationText)
-        console.log(leadName);
         await this.verification(selectors.leads.verificationText, expectedValue);
-      
+        return leadName
     }
 
     public async searchLead(value: string) {
@@ -47,18 +47,30 @@ export class SalesforceLeadPage extends PlaywrightWrapper {
         await this.typeAndEnter(selectors.leads.searchLeadInput, "Search Field", value);
     }
 
-    public async leadID(userName: string) {
+    public async editLead(){
+        await this.click(selectors.leads.showAction,"Action","Dropdown")
+        await this.click(selectors.leads.editLead,"Edit","Button")
+        await this.typeAndEnter(selectors.leads.phoneNumber,"Phone number",FakerData.getMobileNumber())
+    }
+
+      public async leadID(userName: string) {
         await this.spinnerDisappear()
         await this.click(selectors.leads.userId(userName), userName, "User Name")
     }
 
+    public async verifyToastmessage(){
+        return await this.getInnerText(selectors.leads.toastessage)     
+          
+    }
     public async expandButton() {
         await this.click(selectors.leads.expandBtn, "Expand Button", "Button")
     }
 
     public async deleteLead() {
-        await this.validateElementVisibility(selectors.deleteBtn, "Delete");
-        await this.click(selectors.deleteBtn, "Delete", "Button");
+        await this.validateElementVisibility(selectors.leads.deleteLead, "Delete");
+                await this.click(selectors.leads.showAction,"Action","Dropdown")
+
+        await this.click(selectors.leads.deleteLead, "Delete", "Button");
     }
 
     public async deletePopUP() {
